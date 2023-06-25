@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>SMUBBED</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+		<script src="./subtitle.json" type="application/json"></script>
+		<script src="./subtitle.js" type="text/javascript"></script>
+		<script>
+			var dummy = [];
+			var currentMillisecond = 0;
+			var dictionaryWords = [];
+
+			window.onload = () => {
+
+				dummy = subtitleArray;
+
+				window.onTimeUpdate = (e) => {
+					currentMillisecond = Math.round(e.target.currentTime * 1000);
+					showSubtitle();
+				};
+
+				prepareTargetWord();
+
+				const videoPlayer = document.getElementById("smubbed-vid");
+
+				videoPlayer.addEventListener("seeking", (event) => {
+					document.getElementById("subtitle").innerHTML = "";
+				})
+			}
+
+			function showSubtitle() {
+				var dateObject = new Date(currentMillisecond);
+				var currentTime = dateObject.toISOString().substring(14, 19);
+				currentTime = currentTime+":"+dateObject.getMilliseconds();
+
+				for(var i = 0; i < dummy.length ; i++) {
+					var sub = dummy[i];
+					var isBetween = checkTimeInBetween(currentTime, sub.start, sub.end);
+						
+					if (isBetween) {
+						document.getElementById("subtitle").innerHTML = sub.text;
+						break;
+					}
+				}
+			}
+
+			function showDefinition(wordDefinition, wordText) {
+				wordDesc = wordDefinition.replace("&#039;","'");
+				const videoPlayer = document.getElementById("smubbed-vid");
+
+				wordDescArr = wordDesc.split(":");
+
+				if (wordDescArr.length > 1) {
+					wordDesc__target = wordDesc.split(":")[0].trim();
+					wordDesc__desc = wordDesc.split(":")[1].trim();
+	
+					wordDesc__target = wordDesc__target.replace("(adj)","<span class='word-type'>(adjective)</span>");
+					wordDesc__target = wordDesc__target.replace("(v)","<span class='word-type'>(verb)</span>");
+					wordDesc__target = wordDesc__target.replace("(n)","<span class='word-type'>(noun)</span>");
+					wordDesc__target = wordDesc__target.replace("(phrV)","<span class='word-type'>(phrV)</span>");
+				} else {
+					wordDesc__target = wordText;
+					wordDesc__desc = wordDesc;
+				}
+
+				formattedDesc = "<b style='text-transform: capitalize'>"
+					+wordDesc__target+"</b><br/>"
+					+wordDesc__desc;
+
+				videoPlayer.pause();
+
+				document.getElementById("definition-text").classList.remove("hide");
+				document.getElementById("definition-box").classList.remove("hide");
+				document.getElementById("definition-text").innerHTML = formattedDesc;
+			}
+
+			function hideDefinition() {
+				const videoPlayer = document.getElementById("smubbed-vid");
+				
+				document.getElementById("definition-text").classList.add("hide");
+				let hideDefTextTm = setTimeout( () => {
+					document.getElementById("definition-box").classList.add("hide");
+					document.getElementById("definition-text").innerHTML = "";
+				}, 400);
+				videoPlayer.play();
+			}
+
+			function prepareTargetWord() {
+				for (var i = 0; i < dummy.length; i++) {
+					var timedWord = dummy[i];
+					if (timedWord.target && timedWord.target.length > 0) {
+						var splitWord = timedWord.text.split(" ");
+						for (var j = 0; j < timedWord.target.length; j++) {
+							var targetWord = timedWord.target[j];
+
+							/*START: For dictionary*/
+							let tempWord = timedWord.target[j].word.trim();
+							let tempDesc = timedWord.target[j].desc.trim();
+							dictionaryWords.push({"word": tempWord, "desc":tempDesc});
+							/*END: For dictionary*/
+							for (var k = 0; k < splitWord.length; k++) {
+								if (targetWord.word == splitWord[k]) {
+									var encWordDesc = targetWord.desc.replace(/'/g,"&#039;");
+									splitWord[k] = "<a class='target-word' onclick='showDefinition(\""+encWordDesc+"\",\""+targetWord.word+"\")'>"+targetWord.word+"</a>";
+								}
+							}
+						}
+						dummy[i].text = splitWord.join(' ');
+					}
+				}
+				
+				prepareDictionary();
+			}
+
+			function checkTimeInBetween(currTime, startTime, endTime) {
+				var currentDate = new Date();
+
+				currDate = new Date(currentDate.getTime());
+				currDate.setHours(0);
+				currDate.setMinutes(currTime.split(":")[0]);
+				currDate.setSeconds(currTime.split(":")[1]);
+				currDate.setMilliseconds(currTime.split(":")[2] ? currTime.split(":")[2] : 0);
+
+				startDate = new Date(currentDate.getTime());
+				startDate.setHours(0);
+				startDate.setMinutes(startTime.split(":")[0]);
+				startDate.setSeconds(startTime.split(":")[1]);
+				startDate.setMilliseconds(startTime.split(":")[2] ? startTime.split(":")[2] : 0);
+
+				endDate = new Date(currentDate.getTime());
+				endDate.setHours(0);
+				endDate.setMinutes(endTime.split(":")[0]);
+				endDate.setSeconds(endTime.split(":")[1]);
+				endDate.setMilliseconds(endTime.split(":")[2] ? endTime.split(":")[2] : 0);
+
+				//console.log(currDate, startDate, endDate)
+
+				valid = (startDate <= currDate && endDate >= currDate) ? true : false;
+
+				return valid;
+			}
+
+			function toggleDarkMode() {
+				var bodyEl = document.getElementById("body-content");
+
+				if (findDarkClass(bodyEl.classList)) {
+					bodyEl.classList.remove("dark");
+				} else {
+					bodyEl.classList.add("dark");
+				}
+			}
+
+			function findDarkClass(classLists) {
+				let isDarkExist = false;
+
+				for(let i=0; i<classLists.length; i++) {
+					if(classLists[i] == "dark") {
+						isDarkExist = true;
+					}
+				}
+
+				return isDarkExist;
+			}
+
+			var isInfoHiddenTm = null;
+
+			function toggleInfo() {
+				clearTimeout(isInfoHiddenTm);
+
+				var bodyEl = document.getElementById("floating-info");
+
+				if (findInfoHide(bodyEl.classList)) {
+					isInfoHiddenTm = setTimeout( () => {
+						toggleInfo();
+					}, 8000)
+					bodyEl.classList.remove("hide");
+				} else {
+					bodyEl.classList.add("hide");
+				}
+			}
+
+			function findInfoHide(classLists) {
+				let isHidden = false;
+
+				for(let i=0; i<classLists.length; i++) {
+					if(classLists[i] == "hide") {
+						isHidden = true;
+					}
+				}
+
+				return isHidden;
+			}
+
+			function prepareDictionary() {
+				removeDuplicate();
+				var dictionaryEl = document.getElementById("dictionary-content");
+				var prepareInnerHtml = "";
+
+				for ( let i = 0; i < dictionaryWords.length ; i++) {
+					let splittedDesc = dictionaryWords[i].desc.split(":");
+					console.log(splittedDesc);
+					if (splittedDesc.length > 1) {
+						tempWordDesc__target = splittedDesc[0].trim();
+						tempWordDesc__desc = splittedDesc[1].trim();
+					} else {
+						tempWordDesc__target = dictionaryWords[i].word;
+						tempWordDesc__desc = dictionaryWords[i].desc;
+					}
+
+					let word = '<div class="dictionary__word">'+tempWordDesc__target+
+						'</div><div class="dictionary__desc">'+tempWordDesc__desc+'</div>';
+
+					prepareInnerHtml = prepareInnerHtml+word;
+				}
+
+				dictionaryEl.innerHTML = prepareInnerHtml;
+			}
+
+			function removeDuplicate() {
+				let tempDictionary = dictionaryWords.filter((item, index) => {
+					const _value = JSON.stringify(item);
+					return index === dictionaryWords.findIndex( obj => {
+						return JSON.stringify(obj) === _value;
+					})
+				})
+				dictionaryWords = tempDictionary;
+			}
+		</script>
+	</head>
+
+	<body id="body-content" class="area">
+		<div class="header-container">
+			<div class="header-content">
+				<div class="main">SMUBBED</div> <div class="small">SMART INTRALINGUAL SUBTITLE FOR ENGLISH VOCABULARY EDUCATION</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="main-container default">
+				<video class="video-player" id="smubbed-vid" width="100%" ontimeupdate="onTimeUpdate(event)" autoplay controls>
+					<source src="./LIVE_LIFE_FULLY.mp4" type="video/mp4">
+				</video>
+				<div id="definition-box" class="overlay hide">
+					<div id="definition-text" class="definition-text" onclick="hideDefinition();"></div>
+				</div>
+				<div id="subtitle" class="subtitle"></div>
+			</div>
+			<div class="divider-container default"></div>
+			<div class="tool-container default">
+				<div class="tool-titles">
+					<div class="tool-container__title">
+						<span class="title__header">Live Life Fully</span>
+					</div> 
+					<div class="tool-container__desc">
+						<div class="desc">
+							<span>
+								Link to source: <a class="desc-link" href="https://www.youtube.com/watch?v=2cCdo9zWpAs&t=13s" target="_blank">Live LIFE fully</a><br/>
+								By: <a class="desc-link" href="https://www.youtube.com/@OurHumanStories" target="_blank">Green Renaissance</a>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="tool-actions">
+					<div class="desc">
+						<div class="toggle-dark" onclick="toggleDarkMode()"> <!--0,177,169-->
+							<span class="toggle-content">
+								<i class="fa-solid fa-circle-half-stroke toggle-icon"></i>&nbsp;&nbsp;
+								Toggle focus mode
+							</span>
+						</div>
+						<div class="toggle-dark" onclick="toggleInfo()"> <!--0,177,169-->
+							<span class="toggle-content">
+								<i class="fa-regular fa-circle-question toggle-icon"></i>&nbsp;&nbsp;
+								Info
+							</span>
+							<div class="floating-info hide" id="floating-info">
+								<div class="info">
+									<span>
+										You can click on highlighted words to view definition of the words.<br/>
+										Click on the definition box to close the view
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tool-dictionary">
+					<div class="dictionary-header">
+						Dictionary
+					</div>
+					<div class="dictionary-content" id="dictionary-content">
+						<div class="dictionary__word">
+							a
+						</div>
+						<div class="dictionary__desc">
+							b
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-container">
+			<div class="footer-text">
+				All rights reserved by UiTM (Universiti Teknologi MARA)
+			</div>
+		</div>		
+	</body>
+</html>
