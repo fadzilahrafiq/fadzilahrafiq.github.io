@@ -1,0 +1,344 @@
+body {
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px;
+
+  scroll-snap-type: y proximity;
+}
+
+.container {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  background: rgb(0, 123, 211);
+  
+  align-items: flex-start;
+  justify-content: center;
+  
+  scroll-snap-type: y proximity;
+}
+
+.content-container {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  min-height: 100vh;
+  scroll-snap-align: start;
+}
+
+.content-container__header {
+  display: block;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  text-align: center;
+  font-size: 3.5em;
+}
+
+.content-container__body {
+  display: flex;
+  flex: 100%;
+  font-size: 1.2em;
+}
+
+/*LANDING*/
+.content-container.landing {
+  align-items: center;
+  justify-content: center;
+
+  /* background-color: #1d1d1fd4; */
+  background: linear-gradient(90deg,#1d1d1f 0%, #1d1d1f8a 90%,#1d1d1f3b);
+  color: #f5f5f7;
+}
+
+.landing {
+  
+}
+
+.landing-title {
+  text-align: center;
+
+  transition: text-align 1s;
+}
+
+.landing-title__header {
+  font-size: 5em;
+  font-family: 'Belanosima';
+
+  text-shadow: 0px 5px 3px #1f1f1fb3;
+}
+
+.landing-title__subheader {
+  font-size: 2.7em;
+
+  text-shadow: 0px 3px 4px #1f1f1fb3;
+}
+
+.landing-title__jobtitle {
+  margin-top: 2em;
+  font-size: 1.5em;
+  font-weight: 200;
+
+  color: #f5f5f789;
+}
+
+.landing-title__header,.landing-title__subheader,.landing-title__jobtitle {
+  transition: font-size 1s;
+}
+
+.trans-title {
+  /* font-size: 6em; */
+
+  animation: translateLeft ease 1s;
+  animation-fill-mode: forwards;
+}
+
+.initial-hide {
+  opacity: 0;
+  animation: floatIn ease-in .6s;
+  animation-fill-mode: forwards;
+}
+
+/*BIOGRAPHY*/
+.content-container.biography {
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f7f7;
+  color: rgb(0, 123, 211);
+}
+
+.biography-intro {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.biography-intro__profile-pic {
+  display: flex;
+  flex: 40%;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.biography-intro__introduction {
+  display: flex;
+  flex: 60%;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  /* padding: 0px 10vw; */
+
+  font-size: 1.9em;
+  font-weight: 400;
+  text-align: justify;
+  /* letter-spacing: .1em; */
+}
+
+.biography-intro__profile-pic, .biography-intro__introduction {
+  overflow: hidden;
+}
+
+.biography-intro__introduction .intro {
+  padding: 10px 30px 10px 0px;
+}
+
+.biography-intro__introduction .intro .header {
+  font-size: 2em;
+}
+
+.profile-pic {
+  height: 9em;
+  border-radius: 50%;
+}
+
+.profile-pic__full {
+  width: 100%;
+  opacity: .9;
+}
+
+/*FLOATING PROMPT*/
+
+.floating-scroll-prompt {
+  z-index: 999;
+  position: fixed;
+  bottom: 50px;
+
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  color: #f5f5f786;
+}
+
+.floating-scroll-prompt {
+  opacity: 0;
+  animation: easeIn ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-delay: 5s;
+}
+
+.floating-scroll-prompt.hide {
+  animation: easeOut ease-out 1s;
+  animation-fill-mode: forwards;
+}
+
+/*SKILL DISPLAY*/
+.content-container.skill-display {
+  align-items: start;
+  align-content: flex-start;
+  justify-content: center;
+
+  background-color: rgb(0, 123, 211);
+  color: #f5f5f7;
+}
+
+.skill-main__div {
+  display: flex;
+  flex: 30%;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-bubble {
+  display: flex;
+  /* flex: 100%; */
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f7dd;
+  height: 8em;
+  width: 8em;
+  overflow: hidden;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: scale .5s, box-shadow .5s;
+}
+
+.skill-bubble:hover {
+  scale: 1.02;
+  box-shadow: 0px 0px 10px #1d1d1f;
+}
+
+.skill-bubble__icon {
+  width: 4em;
+}
+
+/*ANIMATION*/
+
+.initial-hide.anim-one {
+  animation-delay: .2s;
+}
+
+.initial-hide.anim-two {
+  animation-delay: .5s;
+}
+
+.initial-hide.anim-three {
+  animation-delay: .7s;
+}
+
+.initial-scale-hide {
+  opacity: 0;
+  transform: scale(1, 0.015);
+}
+
+.initial-slide-hide {
+  opacity: 0;
+  translate: 0px -60vh;
+}
+
+.anim-scale-in {
+  transform-origin: top;
+  animation: scaleIn ease-in-out 1.5s;
+  animation-fill-mode: forwards;
+}
+
+.anim-slide-in {
+  animation: slideIn ease-in-out 2s;
+  animation-fill-mode: forwards;
+}
+
+/*START: ANIMATIONS*/
+@keyframes floatIn {
+  0% {
+    translate: 0px 100px;
+    opacity: 0;
+  }
+  100% {
+    translate: 0px 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes easeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes easeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes translateLeft {
+  0% {
+    translate: 0px 0px;
+  }
+
+  100% {
+    translate: -20vw 0px;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0)
+  }
+  
+  30% {
+    opacity: .3;
+    transform: scale(1, 0.015)
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    translate: 0px -60vh;
+  }
+
+  100% {
+    opacity: 1;
+    translate: 0px 0px;
+  }
+}
+/*END: ANIMATIONS*/
