@@ -11,81 +11,73 @@
     <script src="./script.js" type="text/javascript"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="main-container">
       <!--START: LANDING SECTION-->
       <div class="content-container landing" id="landing-section">
         <div class="landing-title">
-          <!-- <div class="landing-title__header initial-hide anim-one">
-            FADZ
+          <div class="landing-title__logo initial-hide anim-one">
+            <img src="./assets/fadz.png" />
           </div>
-          <div class="landing-title__subheader initial-hide anim-two">
-            Fadzilah Rafiq
-          </div> -->
           <div class="landing-title__header initial-hide anim-two">
               Fadzilah Rafiq
             </div>
-          <div class="landing-title__subheader initial-hide anim-three">
-            Full-Stack Developer
+          <div class="landing-title__subheader initial-hide anim-two">
+            Software Developer
           </div>
-          <div class="landing-title__jobtitle initial-hide anim-three">
+          <!-- <div class="landing-title__jobtitle initial-hide anim-three">
             "Don't count the days, make the days count"<br/>
             <i>- Muhammad Ali -</i>
+          </div> -->
+          <div class="landing-title__jobtitle initial-hide anim-three" onclick="scrollToBiography()">
+            Let's Begin<br/>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
+        </div>
+        <div class="landing-menu">
+          asd
         </div>
       </div>
       <!--END: LANDING SECTION-->
       <!--START: BIO SECTION-->
       <div class="content-container biography" id="biography-section">
-        <div class="biography-intro">
-          <div class="biography-intro__profile-pic">
-            <img id="biography-intro__profile-pic" class="profile-pic__full initial-slide-hide" src="./assets/ai-generated-profile.png" />
-          </div>
-          <div class="biography-intro__introduction">
-            <div id="biography-intro__introduction" class="intro initial-slide-hide">
-              <div class="header">
-                Hello!
-              </div>
-              <p>
-                My name is Rafiq. A software developer specializing in full-stack development. With 5 years of experience 
-                as a developer in several companies, dealing with clients from different industries and countries 
-                all around the globe such as Hong Kong, United Kingdom, and UAE (Dubai).
-                <br/><br/>
-                Focusing on delivering engaging user experiences interfaces as well as efficient back-end environment. 
-                User satisfaction is the key to every successful projects.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--END: BIO SECTION-->
-      <!--START: MENU SECTION-->
-      <div class="content-container skill-display">
-        <div class="content-container__header">
-          Skills
-        </div>
-        <div class="content-container__body">
-          <div class="skill-main__div">
-            <div class="skill-bubble">
-              <img src="./assets//icons/web-programming.png" class="skill-bubble__icon"/>
-            </div>
-          </div>
-          <div class="skill-main__div">
-            <div class="skill-bubble">
-              <img src="./assets//icons/framework.png" class="skill-bubble__icon"/>
-            </div>
-          </div>
-          <div class="skill-main__div">
-            <div class="skill-bubble">
-              <img src="./assets//icons/software.png" class="skill-bubble__icon"/>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="floating-scroll-prompt" id="floating-scroll-prompt">
-        <div class="floating-scroll__text">
-          Scroll down<br/><br/>
-          <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+        <div class="page-header">
+          <div class="page-header__logo" onclick="navigateToLanding()">
+            <img src="./assets/fadz.png" />
+          </div>
+          <div class="page-header__contact">
+            <div class="contact-button" onclick="navigateToContact()">
+              Contact Me <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </div>
+          <div class="page-header__title">
+            { Hello World }
+          </div>
+        </div>
+        
+        <div class="biography-intro content-margin">
+          <div class="biography-intro__content">
+            <p>
+                My name is Rafiq. A software developer specializing in full-stack development. With 5 years of experience 
+              as a developer in several companies, dealing with clients from different industries and countries 
+              all around the globe such as Hong Kong, United Kingdom, and UAE (Dubai).
+              <br/><br/>
+              Focusing on delivering engaging user experience interfaces as well as efficient back-end environment. 
+              User satisfaction is the key to every successful projects.
+            </p>
+          </div>
+          <div class="biography-intro__footer">
+            <div class="navigation-button left">
+              <div class="navigation-button-container" onclick="navigateToProjects()">
+                <i class="fa-solid fa-chevron-left"></i> Past Projects
+              </div>
+            </div>
+            <div class="navigation-button right">
+              <div class="navigation-button-container" onclick="navigateToExperience()">
+                Experiences <i class="fa-solid fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
