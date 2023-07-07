@@ -13,19 +13,51 @@
   <body>
     <div class="container fade-in" id="main-container">
       <!--START: EXPERIENCE SECTION-->
-      <div class="content-container experience" id="experience-section">
+      <div class="content-container contact" id="contact-section">
 
         <div class="page-header">
           <div class="page-header__logo" onclick="goToLanding()">
             <img src="./assets/fadz.png" />
           </div>
           <div class="page-header__contact">
+            <div class="contact-button" onclick="navigateToAboutMe()">
+              About Me
+            </div>
+            <div class="contact-button" onclick="navigateToProjects()">
+              Projects
+            </div>
+            <div class="contact-button" onclick="navigateToExperience()">
+              Experience
+            </div>
             <div class="contact-button" onclick="navigateToContact()">
               Contact Me <i class="fa-solid fa-chevron-right"></i>
             </div>
           </div>
           <div class="page-header__title">
             { Contact Me }
+          </div>
+        </div>
+
+        <div class="contact-content">
+          <div class="contact-content__main">
+            For any inquiries and job opportunities, feel free to contact me on any of the options below
+          </div>
+          <div class="contact-content__option">
+            <div class="option">
+              <div class="option-box" onclick="goToLinkedIn()">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </div>
+            </div>
+            <div class="option">
+              <div class="option-box" onclick="showEmail()">
+                <i class="fa-regular fa-envelope"></i>
+              </div>
+            </div>
+            <div class="option">
+              <div class="option-box" onclick="showWhatsapp()">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+            </div>
           </div>
         </div>
 
